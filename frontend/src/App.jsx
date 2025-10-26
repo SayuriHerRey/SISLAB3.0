@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import DashboardAdmin from './components/DashboardAdmin';
 import DashboardDocente from './components/DashboardDocente';
@@ -128,24 +129,34 @@ function App() {
   };
 
   return (
-    <div className="App">
-      {!user ? (
-        <div>
-          <Login onLogin={handleLogin} loading={loading} />
-          {/* Botón para activar pantalla de registro sin login */}
-          <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            <button 
-              onClick={toggleModoRegistro}
-              className="btn-modoregistro"
-            >
-              🖥️ Activar Pantalla de Registro (Laboratorio)
-            </button>
-          </div>
-        </div>
-      ) : (
-        renderDashboard()
-      )}
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          {/* Ruta para la pantalla de registro */}
+          <Route 
+            path="/pantalla-registro-clase" 
+            element={<PantallaRegistroClase />} 
+          />
+          
+          {/* Ruta principal */}
+          <Route 
+            path="/" 
+            element={
+              !user ? (
+                <div>
+                  <Login onLogin={handleLogin} loading={loading} />
+                </div>
+              ) : (
+                renderDashboard()
+              )
+            } 
+          />
+          
+          {/* Redirección para cualquier ruta no encontrada */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

@@ -237,6 +237,39 @@ const DashboardAdmin = ({ userData, onLogout }) => {
     cargarDatosMock();
   }, [activeMenu]);
 
+  // NUEVA FUNCIÓN: Abrir pantalla de registro en nueva ventana
+  const handleAbrirPantallaRegistro = () => {
+    // Ruta de la pantalla de registro
+    const url = '/pantalla-registro-clase';
+    
+    // Configuración de la nueva ventana
+    const windowFeatures = `
+      width=1200,
+      height=800,
+      left=${window.screenX + 100},
+      top=${window.screenY + 50},
+      menubar=no,
+      toolbar=no,
+      location=no,
+      status=no,
+      resizable=yes,
+      scrollbars=yes
+    `;
+    
+    // Abrir nueva ventana
+    const nuevaVentana = window.open(url, 'PantallaRegistroClase', windowFeatures);
+    
+    if (nuevaVentana) {
+      // Enfocar la nueva ventana
+      nuevaVentana.focus();
+      
+      // Mensaje de confirmación
+      alert('🖥️ Pantalla de registro abierta en nueva ventana');
+    } else {
+      alert('❌ No se pudo abrir la nueva ventana. Por favor, permite ventanas emergentes para este sitio.');
+    }
+  };
+
   const cargarDatosMock = () => {
     setLoading(true);
     
@@ -1267,6 +1300,12 @@ const DashboardAdmin = ({ userData, onLogout }) => {
             <div className={`nav-item ${activeMenu === 'usuarios' ? 'active' : ''}`}
               onClick={() => setActiveMenu('usuarios')}>
               👥 Gestión de Usuarios
+            </div>
+            
+            {/* NUEVA OPCIÓN - Pantalla de Registro en Tiempo Real */}
+            <div className="nav-item nav-item-special"
+              onClick={handleAbrirPantallaRegistro}>
+              📱 Pantalla de Registro
             </div>
           </nav>
         </aside>
